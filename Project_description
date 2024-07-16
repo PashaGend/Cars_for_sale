@@ -1,0 +1,33 @@
+the "cars" project
+
+Create a "cars" project based on Flask.
+It will run a REST-API server that will enable you to create/read/update/delete (CRUD)
+tasks that you have to do.
+A single task should contain a title and some details:
+('title':'shop', 'details':'Milk'}
+
+This is how you should use your program using "curl":
+
+# Get all cars
+# This will use GET by default
+curl http://127.0.0.1:5000/cars
+
+
+# This will use GET to get a specific car
+curl http://127.0.0.1:5000/cars/2
+
+# This will use DELETE to delete a specific car
+curl -X "DELETE" http://127.0.0.1:5000/cars/2
+
+
+# Add a new task:
+# (You have to specify Content-Type to send data as json)
+curl  -X POST -H "Content-Type: application/json" -d '{"car_id": 6, "car_make": "Opel","car_model": "Opel", "make_year": "1985","color": "Red", "car_price": "20000$"}' http://127.0.0.1:5000/cars
+
+
+Use similar patterns to implement update - TODO
+
+GET  (to read data)
+POST (to create a new one)
+PUT  (to update an existing one)
+DELETE (to delete an existing one)
