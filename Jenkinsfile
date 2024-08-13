@@ -6,12 +6,12 @@ pipeline {
                 when {
                     branch "new-fix"
                 }
-                echo 'brsnch new-fic'
+                echo 'branch new-fix'
             }
         }
         stage('deploy'){
             when{
-                branch "main"
+                branch "master"
             }
             steps{
                 echo "deploy"
