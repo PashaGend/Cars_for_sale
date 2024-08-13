@@ -2,12 +2,13 @@ pipeline {
 	agent any
 	stages {
 	    stage ('build'){
-            steps {
                 when {
                     branch "new-fix"
                 }
+            steps{
                 echo 'branch new-fix'
             }
+
         }
         stage('deploy'){
             when{
