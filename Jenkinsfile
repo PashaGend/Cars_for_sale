@@ -14,8 +14,8 @@ pipeline {
                 branch "new-fix"
             }
             steps {
-                        sh 'docker build -t pavelgend/cars_image:04 .'
-                        echo "New image was created"
+                sh 'docker build -t pavelgend/cars_image:04 .'
+                echo "New image was created"
                 }
         }
         stage('Remove all previous container') {
@@ -23,8 +23,8 @@ pipeline {
                 branch "new-fix"
             }
             steps {
-                sh 'docker stop $(docker ps -a -q) || true'
-                sh 'docker rm $(docker ps -a -q)'
+                sh 'docker stop cars_image_test'
+                sh 'docker rm cars_image_test'
                 }
         }
         stage('Test new Image and push') {
