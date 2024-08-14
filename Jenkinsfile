@@ -24,7 +24,7 @@ pipeline {
             }
             steps {
                 sh 'docker ps -a'
-                sh 'if [ $? -ne 0 ]; then docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) && echo "all containers were stoped and removed"'
+                sh 'if [ $? -ne 0 ]; then docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) && echo "all containers were stoped and removed";fi'
                 }
         }
         stage('Test new Image and push') {
