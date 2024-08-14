@@ -13,4 +13,4 @@ RUN pip install -r requirement.txt
 
 
 
-#CMD ["python3","cars.py"]
+CMD ["python3","cars.py"]
