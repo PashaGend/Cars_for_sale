@@ -37,8 +37,7 @@ pipeline {
                 sh 'docker run -d --name cars_image_test pavelgend/cars_image:04'
                 sh 'docker start cars_image_test'
                 sh 'docker exec cars_image_test python3 test_cars_db.py'
-                sh 'if [ $? -ne 0 ]; then echo "Tests failed" && exit 1;
-                else docker push pavelgend/cars_image:04 && echo "Tests passed and New image was pushed"; fi' /* if output status is not equal to 0 so exit  */
+                sh 'if [ $? -ne 0 ]; then echo "Tests failed" && exit 1; else docker push pavelgend/cars_image:04 && echo "Tests passed and New image was pushed"; fi' /* if output status is not equal to 0 so exit  */
                 
                 sh 'docker stop cars_image_test'
                 sh 'docker rm cars_image_test'
