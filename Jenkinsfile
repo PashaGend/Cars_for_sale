@@ -18,6 +18,7 @@ pipeline {
                 echo "New image was created"
                 }
         }
+        /*
         stage('Remove previous container') {
             when{
                 branch "new-fix"
@@ -29,7 +30,7 @@ pipeline {
                 }
 
                 }
-        }
+        } */
         stage('Test new Image and push') {
             when{
                 branch "new-fix"
@@ -40,9 +41,16 @@ pipeline {
                 sh 'docker exec cars_container_test python3 test_cars_db.py'
                 sh 'if [ $? -ne 0 ]; then echo "Tests failed" && exit 1; else echo "Tests passed"; fi' /*  if output status is not equal to 0 so exit  */
                 /* sh 'if [ $? -ne 0 ]; then echo "Tests failed" && exit 1; else docker push pavelgend/cars_image:04 && echo "Tests passed and New image was pushed"; fi' */
+            }
+        }
+        stage('Remove Container') {
+            when{
+                branch "new-fix"
+            }
+            steps {
                 sh 'docker stop cars_container_test'
                 sh 'docker rm cars_container_test'
-            }
+                }
         }
     }
 }
