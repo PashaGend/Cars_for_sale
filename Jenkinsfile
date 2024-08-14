@@ -15,8 +15,8 @@ pipeline {
             }
             steps {
                 script {
-                        sh 'docker build -t pavelgend/cars_image:02 .'
-                        sh 'docker push pavelgend/cars_image:02'
+                        sh 'docker build -t pavelgend/cars_image:03 .'
+                        sh 'docker push pavelgend/cars_image:03'
                         echo "New image was created"
                     }
                 }
@@ -26,8 +26,8 @@ pipeline {
                 branch "new-fix"
             }
             steps{
-                sh 'docker pull pavelgend/cars_image:02'
-                sh 'docker run -d --name cars_new_image_test pavelgend/cars_image:02'
+                sh 'docker pull pavelgend/cars_image:03'
+                sh 'docker run -d --name cars_image_test pavelgend/cars_image:03'
                 sh 'docker exec cars_image_test python test.py'
                 sh 'if [ $? -ne 0 ]; then exit 1; fi' /* if output status is not equal to 0 so exit */
                 sh 'docker stop cars_image_test'
