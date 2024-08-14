@@ -23,8 +23,8 @@ pipeline {
                 branch "new-fix"
             }
             steps {
-                sh 'docker stop cars_image_test'
-                sh 'docker rm cars_image_test'
+                sh 'docker ps -a'
+                sh 'if [ $? -ne 0 ]; then docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) && echo "all containers were stoped and removed"'
                 }
         }
         stage('Test new Image and push') {
