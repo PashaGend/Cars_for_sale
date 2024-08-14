@@ -23,7 +23,7 @@ pipeline {
                 branch "new-fix"
             }
             steps {
-                sh 'docker stop $(docker ps -a -q)' || true
+                sh 'docker stop $(docker ps -a -q) || true'
                 sh 'docker rm $(docker ps -a -q)'
                 }
         }
