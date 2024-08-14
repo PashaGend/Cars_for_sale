@@ -24,6 +24,7 @@ pipeline {
                 branch "new-fix"
             }
             steps {
+                sh 'docker login'
                 sh 'docker stop cars_image_test'
                 sh 'docker rm cars_image_test'
                 }
