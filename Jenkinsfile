@@ -23,8 +23,11 @@ pipeline {
                 branch "new-fix"
             }
             steps {
+                script {
                 sh 'docker ps -a|grep cars_container_test'
                 sh 'if [ $? -eq 0 ]; then docker stop cars_container_test && docker rm cars_container_test && echo "all containers were stoped and removed";fi'
+                }
+
                 }
         }
         stage('Test new Image and push') {
