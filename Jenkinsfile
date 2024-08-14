@@ -1,6 +1,14 @@
 pipeline {
     agent any
     stages {
+        stage('Master') {
+            when{
+                branch "master"
+            }
+            steps {
+                echo "Deploy"
+            }
+        }
         stage('Run Tests') {
             when{
                 branch "new-fix"
