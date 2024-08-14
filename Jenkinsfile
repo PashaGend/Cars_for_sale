@@ -18,13 +18,13 @@ pipeline {
                         echo "New image was created"
                 }
         }
-        stage('Remove previous container') {
+        stage('Remove all previous container') {
             when{
                 branch "new-fix"
             }
             steps {
-                sh 'docker stop cars_image_test'
-                sh 'docker rm cars_image_test'
+                sh 'docker stop $(docker ps -a -q)'
+                sh 'docker rm $(docker ps -a -q)'
                 }
         }
         stage('Test new Image and push') {
