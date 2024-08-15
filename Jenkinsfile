@@ -23,8 +23,8 @@ pipeline {
                 branch "new-fix"
             }
             steps {
-                sh 'docker ps -a -q | xargs docker stop'
-                sh 'docker ps -a -q | xargs docker rm'
+                sh 'if [ $"(docker ps -a -q)" ]; then  docker ps -a -q| xargs docker stop; fi'
+                sh 'if [ $"(docker ps -a -q)" ]; then  docker ps -a -q| xargs docker rm; fi'
             }
         }
         stage('Test new Image and push') {
