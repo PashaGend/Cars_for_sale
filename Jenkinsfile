@@ -24,7 +24,7 @@ pipeline {
             }
             steps {
                 script {
-                    psOutput=&('docker ps -a')
+                    psOutput = sh(script: 'docker ps -a',returnStdout: true)
                     echo psOutput
                     if (psOutput.split("\n").length > 1) {
                         echo 'after if'
