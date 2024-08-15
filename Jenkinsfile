@@ -21,8 +21,7 @@ pipeline {
         stage('Remove Running Containers') {
             steps {
                 script {
-                    def psOutput = sh(script: 'docker ps -a', returnStdout: true, returnStatus: true)
-                    if (psOutput == 0) {
+                    if (sh(script: 'docker ps -a') == 0) {
                         echo 'after if'
                         sh 'docker ps -a -q | xargs docker stop'
                         sh 'docker ps -a -q | xargs docker rm'
@@ -33,7 +32,7 @@ pipeline {
                 }
             }
         }
-        stage('Test new Image and push') {
+                stage('Test new Image and push') {
             when{
                 branch "new-fix"
             }
