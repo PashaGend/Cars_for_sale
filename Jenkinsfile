@@ -20,7 +20,7 @@ pipeline {
         }
         stage('Remove Running Containers') {
             when{
-                branch "new-fix"
+                branch "new-fix" && sh 'docker ps -a -q'
             }
             steps {
                 sh 'if [ $"(docker ps -a -q)" ]; then  docker ps -a -q| xargs docker stop; fi'
