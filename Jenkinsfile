@@ -41,7 +41,7 @@ pipeline {
                 sh 'if [ $? -ne 0 ]; then echo "Tests failed" && exit 1; else docker push pavelgend/cars_image:03 && echo "Tests passed and New image was pushed"; fi'
             }
         }
-        stage('Remove  Container') {
+        stage('Remove New Container') {
             when{
                 branch "new-fix"
             }
