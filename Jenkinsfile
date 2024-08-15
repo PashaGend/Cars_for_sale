@@ -21,7 +21,8 @@ pipeline {
             stage('Remove Running Containers') {
                 steps {
                     script {
-                        if (sh( 'docker ps -a')) {
+                        sh 'docker ps -a -q'
+                        if (if [ $? -eq 0 ]) {
                             sh 'docker ps -a -q | xargs docker stop'
                             sh 'docker ps -a -q | xargs docker rm'
                         } else {
