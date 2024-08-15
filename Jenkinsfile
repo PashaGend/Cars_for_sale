@@ -21,12 +21,12 @@ pipeline {
         stage('Remove Running Containers') {
             steps {
                 script {
-                 /* if (sh( 'docker ps -a ')) {    */
-                    sh 'docker ps -a -q'
-                    if ([ exitCode != null ]) {
+                    if (sh( 'docker ps -a ')) {
+                        echo 'after if'    
                         sh 'docker ps -a -q | xargs docker stop'
                         sh 'docker ps -a -q | xargs docker rm'
-                    } else {
+                    } else { 
+                        echo 'after else'
                         echo "No running containers found"
                     }
                 }
