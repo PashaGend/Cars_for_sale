@@ -35,7 +35,7 @@ pipeline {
                 sh 'docker run -d --name cars_container_test pavelgend/cars_image:03'
                 sh 'docker start cars_container_test'
                 sh 'docker exec cars_container_test python3 test_cars_db.py'
-                sh 'if [ $? -ne 0 ]; then docker stop cars_container_test && docker rm cars_container_test && echo "Tests failed end container was removed" && exit 1; else docker push pavelgend/cars_image:03 && echo "Tests passed and New image was pushed"; fi'
+                sh 'if [ $? -ne 0 ]; then echo "Tests failed" && exit 1; else docker push pavelgend/cars_image:03 && echo "Tests passed and New image was pushed"; fi'
             }
         }
         stage('Remove  Container') {
