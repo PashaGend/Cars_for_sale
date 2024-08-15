@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
                     psOutput = sh(script: 'docker ps -a', returnStdout: true, returnStatus: true)
-                    if (psOutput.contains("CONTAINER ID") && psOutput.contains("\n")) {
+                    if (psOutput.toString().contains("CONTAINER ID") && psOutput.toString().contains("\n")) {
                         echo 'after if'
                         sh 'docker ps -a -q | xargs docker stop'
                         sh 'docker ps -a -q | xargs docker rm'
