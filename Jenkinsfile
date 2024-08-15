@@ -18,11 +18,11 @@ pipeline {
                 echo "New image was created"
                 }
         }
-                stage('Remove Running Containers') {
+                stage('Remove Old Containers') {
                     steps {
                         script {
 
-                            if (sh(script: 'docker ps -a', returnStdout: true, returnStatus: true)==0) {
+                            if (sh(script: 'docker ps -a', returnStdout: true)==0) {
                                 echo 'after if'
                                 sh 'docker ps -a -q | xargs docker stop'
                                 sh 'docker ps -a -q | xargs docker rm'
