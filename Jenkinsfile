@@ -32,6 +32,7 @@ pipeline {
                     }
                 }
             }
+        }
         stage('Test new Image and push') {
             when{
                 branch "new-fix"
