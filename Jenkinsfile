@@ -22,7 +22,7 @@ pipeline {
                     steps {
                         script {
 
-                            if (sh(script: 'docker ps -a', returnStdout: true)==0) {
+                            if (sh(script: 'docker ps -a', returnStatus: true)==0) {
                                 echo 'after if'
                                 sh 'docker ps -a -q | xargs docker stop'
                                 sh 'docker ps -a -q | xargs docker rm'
