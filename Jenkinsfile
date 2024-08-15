@@ -22,7 +22,7 @@ pipeline {
                 steps {
                     script {
                         sh 'docker ps -a -q'
-                        if ([ exitCode == 0 ]) {
+                        if ([ exitCode != null ]) {
                             sh 'docker ps -a -q | xargs docker stop'
                             sh 'docker ps -a -q | xargs docker rm'
                         } else {
