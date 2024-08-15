@@ -31,7 +31,7 @@ pipeline {
                         echo "No running containers found"
                     }
                 }
-        }
+            }
         stage('Test new Image and push') {
             when{
                 branch "new-fix"
