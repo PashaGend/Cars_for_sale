@@ -18,20 +18,22 @@ pipeline {
                 echo "New image was created"
                 }
         }
-                stage('Remove Old Containers') {
-                    steps {
-                        script {
+        stage('Remove Old Containers') {
+            steps {
+                script {
 
-                            if (sh(script: 'docker ps -a', returnStatus: true)==0) {
-                                sh 'docker ps -a -q | xargs docker stop'
-                                sh 'docker ps -a -q | xargs docker rm'
-                            } else {
-                                echo "No running containers found"
-                            }
-                        }
+                    if (sh(script: 'docker ps -a', returnStdout: true, returnStatus: true)==0) {
+                        echo 'after if'
+                        sh 'docker ps -a -q | xargs docker stop'
+                        sh 'docker ps -a -q | xargs docker rm'
+                        } else {
+                        echo 'after else'
+                        echo "No running containers found"
                     }
                 }
-                stage('Test new Image and push') {
+            }
+        }
+        stage('Test new Image and push') {
             when{
                 branch "new-fix"
             }
