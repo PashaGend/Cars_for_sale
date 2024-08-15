@@ -23,11 +23,9 @@ pipeline {
                         script {
 
                             if (sh(script: 'docker ps -a', returnStatus: true)==0) {
-                                echo 'after if'
                                 sh 'docker ps -a -q | xargs docker stop'
                                 sh 'docker ps -a -q | xargs docker rm'
                             } else {
-                                echo 'after else'
                                 echo "No running containers found"
                             }
                         }
