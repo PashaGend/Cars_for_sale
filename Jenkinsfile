@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Pre-Build') {
             when{
-                branch "new-fix"
+                branch "new-feature"
             }
             steps {
                 script {
@@ -29,7 +29,7 @@ pipeline {
         }
         stage('Build') {
             when{
-                branch "new-fix"
+                branch "new-feature"
             }
             steps {
                 sh 'docker build -t pavelgend/cars_image:03 .'
@@ -38,7 +38,7 @@ pipeline {
         }
         stage('Test') {
             when{
-                branch "new-fix"
+                branch "new-feature"
             }
             steps{
                 sh 'docker run -d --name cars_container_test pavelgend/cars_image:03'
@@ -51,7 +51,7 @@ pipeline {
         }
         stage('Deploy') {
             when {
-                branch "new-fix"
+                branch "new-feature"
             }
             steps {
                 sh 'docker push pavelgend/cars_image:03'
