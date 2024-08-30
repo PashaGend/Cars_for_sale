@@ -52,7 +52,7 @@ pipeline {
         }
         stage('Deploy') {
             when {
-                branch "master" && changeBranch == "new-feature"
+                branch "new-feature" && changeBranch == "master"
             }
             steps {
                 sh 'docker push pavelgend/cars_image:03'
