@@ -22,7 +22,7 @@ pipeline {
                         sh 'docker ps -a -q | xargs docker stop'
                         sh 'docker ps -a -q | xargs docker rm'
                     } else {
-                        echo "No running containers found"
+                        echo "No running containers were found"
                     }
                 }
             }
@@ -44,7 +44,7 @@ pipeline {
                 sh 'docker run -d --name cars_container_test pavelgend/cars_image:03'
                 sh 'docker start cars_container_test'
                 sh 'docker exec cars_container_test python3 test_cars_db.py'
-                sh 'if [ $? -ne 0 ]; then echo "Tests failed" && exit 1; else echo "Application tests passed"; fi'
+                sh 'if [ $? -ne 0 ]; then echo "Tests failed" && exit 1; else echo "Application tests were passed"; fi'
                 sh 'docker stop cars_container_test'
                 sh 'docker rm cars_container_test'
             }
