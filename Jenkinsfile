@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Create New Image') {
             when{
-                branch "new-fix"
+                branch "new-feature"
             }
             steps {
                 sh 'docker build -t pavelgend/cars_image:03 .'
@@ -20,7 +20,7 @@ pipeline {
         }
         stage('Remove Old Containers') {
             when{
-                branch "new-fix"
+                branch "new-feature"
             }
             steps {
                 script {
@@ -38,7 +38,7 @@ pipeline {
         }
         stage('Test new Image and push') {
             when{
-                branch "new-fix"
+                branch "new-feature"
             }
             steps{
                 sh 'docker run -d --name cars_container_test pavelgend/cars_image:03'
@@ -49,7 +49,7 @@ pipeline {
         }
         stage('Remove New Container') {
             when{
-                branch "new-fix"
+                branch "new-feature"
             }
             steps {
                 sh 'docker stop cars_container_test'
