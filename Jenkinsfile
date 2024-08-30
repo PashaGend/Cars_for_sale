@@ -6,12 +6,13 @@ pipeline {
                 branch "master"
             }
             steps {
-                echo "Deploy"
+                echo "Working on master branch"
+
             }
         }
         stage('Pre-Build') {
             when{
-                branch "new-feature"
+                branch "new-feature" 
             }
             steps {
                 script {
@@ -51,7 +52,7 @@ pipeline {
         }
         stage('Deploy') {
             when {
-                branch "new-feature"
+                branch "master" && changeBranch == "new-feature"
             }
             steps {
                 sh 'docker push pavelgend/cars_image:03'
