@@ -9,41 +9,52 @@ pipeline {
                 echo "Deploy"
             }
         }
-        stage('Run Tests') {
-            when{
-                branch "new-fix"
-            }
-            steps {
-                sh 'python3 test_cars_db.py'
-            }
-        }
         stage('Create New Image') {
             when{
-                branch "new-fix"
+                branch "new-feature"
+            }
+            steps {
+                sh 'docker build -t pavelgend/cars_image:03 .'
+                echo "New image was created"
+                }
+        }
+        stage('Remove Old Containers') {
+            when{
+                branch "new-feature"
             }
             steps {
                 script {
-                    if (currentBuild.result == 'SUCCESS') {
-                        sh 'docker build -t pavelgend/cars_image:02 .'
-                        sh 'docker push pavelgend/cars_image:02'
-                        echo "New image was created"
+                    psOutput = sh(script: 'docker ps -a',returnStdout: true)
+                    echo psOutput
+                    if (psOutput.split("\n").length > 1) {
+                        echo "starting remove container................"
+                        sh 'docker ps -a -q | xargs docker stop'
+                        sh 'docker ps -a -q | xargs docker rm'
+                    } else {
+                        echo "No running containers found"
                     }
                 }
             }
         }
-        stage('Test new Image') {
+        stage('Test new Image and push') {
             when{
-                branch "new-fix"
+                branch "new-feature"
             }
             steps{
-                sh 'docker pull pavelgend/cars_image:02'
-                sh 'docker run -d --name cars_image_test pavelgend/cars_image:02'
-                sh 'docker exec cars_image_test python test.py'
-                sh 'if [ $? -ne 0 ]; then exit 1; fi' /* if output status is not equal to 0 so exit */
-                sh 'docker stop cars_image_test'
-                sh 'docker rm cars_image_test'
-                echo "New image tests passed successfully"
+                sh 'docker run -d --name cars_container_test pavelgend/cars_image:03'
+                sh 'docker start cars_container_test'
+                sh 'docker exec cars_container_test python3 test_cars_db.py'
+                sh 'if [ $? -ne 0 ]; then echo "Tests failed" && exit 1; else docker push pavelgend/cars_image:03 && echo "Tests passed and New image was pushed"; fi'
             }
+        }
+        stage('Remove New Container') {
+            when{
+                branch "new-feature"
+            }
+            steps {
+                sh 'docker stop cars_container_test'
+                sh 'docker rm cars_container_test'
+                }
         }
     }
 }
