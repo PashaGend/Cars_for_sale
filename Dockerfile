@@ -4,8 +4,10 @@ WORKDIR /app
 
 COPY cars.py ./
 COPY cars_db.py ./
+COPY test_cars_db.py ./
 COPY *.json ./
 COPY requirement.txt ./
+
 
 RUN pip install -r requirement.txt
 

@@ -1,0 +1,7 @@
+[
+     {"car_id": 1, "car_make": "Ford","car_model": "Mustang", "make_year": "1985","color": "Red", "car_price": "20000$"},
+     {"car_id": 2, "car_make": "Opel","car_model": "Astra", "make_year": "2017","color": "White", "car_price": "17000$"},
+     {"car_id": 3, "car_make": "BMW","car_model": "M5", "make_year": "2020","color": "Blue", "car_price": "80000$"},
+     {"car_id": 4, "car_make": "Toyota","car_model": "Corolla", "make_year": "2022","color": "Black", "car_price": "30000$"},
+     {"car_id": 5, "car_make": "Audi","car_model": "a3", "make_year": "2021","color": "Red", "car_price": "35000$"}
+]
