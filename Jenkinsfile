@@ -2,7 +2,11 @@ pipeline {
     agent any
     environment {
         PREV_IMAGE_TAG = "03"
+<<<<<<< HEAD
         NEW_IMAGE_TAG = "04"
+=======
+        NEW_IMAGE_TAG = "05"
+>>>>>>> new-feature
         IMAGE_REP = "pavelgend/cars_image"
     }
     stages {
