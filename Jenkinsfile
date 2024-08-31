@@ -56,7 +56,7 @@ pipeline {
         }
         stage('Deploy') {
             when {
-                branch "master"
+                branch "new-feature"
             }
             steps {
                 sh 'docker push $IMAGE_NAME:$IMAGE_TAG'
