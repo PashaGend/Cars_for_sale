@@ -1,8 +1,8 @@
 pipeline {
     agent any
     environment {
-        IMAGE_TAG = "$IMAGE_TAG"
-        IMAGE_NAME = "$IMAGE_NAME"
+        IMAGE_TAG = "03"
+        IMAGE_NAME = "pavelgend/cars_image"
     }
     stages {
         stage('Master') {
