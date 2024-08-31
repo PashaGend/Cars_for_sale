@@ -3,7 +3,7 @@ pipeline {
     environment {
         PREV_IMAGE_TAG = "03"
         NEW_IMAGE_TAG = "04"
-        IMAGE_NAME = "pavelgend/cars_image"
+        IMAGE_REP = "pavelgend/cars_image"
     }
     stages {
         stage('Master') {
@@ -38,8 +38,8 @@ pipeline {
                 branch "new-feature"
             }
             steps{
-                sh 'docker build -t $IMAGE_NAME:$PREV_IMAGE_TAG .'
-                sh 'docker run -d --name cars_container_test $IMAGE_NAME:$PREV_IMAGE_TAG'
+                sh 'docker build -t $IMAGE_REP:$PREV_IMAGE_TAG .'
+                sh 'docker run -d --name cars_container_test $IMAGE_REP:$PREV_IMAGE_TAG'
                 sh 'docker start cars_container_test'
                 sh 'docker exec cars_container_test python3 test_cars_db.py'
                 sh 'if [ $? -ne 0 ]; then echo "Tests failed" && exit 1; else echo "Application tests were passed"; fi'
@@ -52,17 +52,17 @@ pipeline {
                 branch "new-feature"
             }
             steps {
-                sh 'docker build -t $IMAGE_NAME:$NEW_IMAGE_TAG .'
+                sh 'docker build -t $IMAGE_REP:$NEW_IMAGE_TAG .'
                 echo "New image was created"
                 }
         }
         stage('Deploy') {
             when {
-                branch "new-feature"
+                branch "master"
             }
             steps {
-                sh 'docker push $IMAGE_NAME:$NEW_IMAGE_TAG'
-                echo "New image $IMAGE_NAME:$NEW_IMAGE_TAG was pushed"
+                sh 'docker push $IMAGE_REP:$NEW_IMAGE_TAG'
+                echo "New image $IMAGE_REP:$NEW_IMAGE_TAG was pushed"
             }
         }
     }
