@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        PREV_IMAGE_TAG = "04"
+        PREV_IMAGE_TAG = "03"
         NEW_IMAGE_TAG = "05"
         IMAGE_REP = "pavelgend/cars_image"
     }
