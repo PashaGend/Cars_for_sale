@@ -6,8 +6,7 @@ with open("cars_list.json") as json_file:
      cars = json.load(json_file)
 
 def all_cars():
-   #  return cars
-     pass
+     return cars
 
 def specific_car(car_id):
 #     get_one_car = [car for car in cars if car["id"] == id]
@@ -44,3 +43,5 @@ def add_car(data):
     with open("cars_list.json", "w") as json_file:
         json.dump(cars, json_file)
     return f"New car number: {new_car_id} was added successfully"
+
+#Just for test - this line shold be deleted
