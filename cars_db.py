@@ -6,7 +6,8 @@ with open("cars_list.json") as json_file:
      cars = json.load(json_file)
 
 def all_cars():
-     return cars
+   #  return cars
+     pass
 
 def specific_car(car_id):
 #     get_one_car = [car for car in cars if car["id"] == id]
