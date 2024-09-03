@@ -12,9 +12,9 @@ pipeline {
             }
             steps {
                 echo "Working on master branch"
-
             }
         }
+
         stage('Pre-Build') {
             when{
                 branch "new-feature" 
@@ -33,20 +33,27 @@ pipeline {
                 }
             }
         }
+
         stage('Test') {
             when{
                 branch "new-feature"
             }
             steps{
-                sh 'docker build -t $IMAGE_REP:$PREV_IMAGE_TAG .'
-                sh 'docker run -d --name cars_container_test $IMAGE_REP:$PREV_IMAGE_TAG'
-                sh 'docker start cars_container_test'
-                sh 'docker exec cars_container_test python3 test_cars_db.py'
-                sh 'if [ $? -ne 0 ]; then echo "Tests failed" && exit 1; else echo "Application tests were passed"; fi'
-                sh 'docker stop cars_container_test'
-                sh 'docker rm cars_container_test'
+                try {
+                    sh 'docker build -t $IMAGE_REP:$PREV_IMAGE_TAG .'
+                    sh 'docker run -d --name cars_container_test $IMAGE_REP:$PREV_IMAGE_TAG'
+                    sh 'docker start cars_container_test'
+                    sh 'docker exec cars_container_test python3 test_cars_db.py'
+                    sh 'if [ $? -ne 0 ]; then echo "Tests failed" && exit 1; else echo "Application tests were passed"; fi'
+                    sh 'docker stop cars_container_test'
+                    sh 'docker rm cars_container_test'
+                } catch (Exception e) {
+                    echo "Tests failed: ${e.getMessage()}"
+                    env.TEST_FAILED = true
+                }
             }
         }
+
         stage('Build') {
             when{
                 branch "new-feature"
@@ -54,11 +61,13 @@ pipeline {
             steps {
                 sh 'docker build -t $IMAGE_REP:$NEW_IMAGE_TAG .'
                 echo "New image was created"
-                }
+            }
         }
+
         stage('Deploy') {
             when {
                 branch "master"
+                expression { !env.TEST_FAILED }
             }
             steps {
                 sh 'docker push $IMAGE_REP:$NEW_IMAGE_TAG'
