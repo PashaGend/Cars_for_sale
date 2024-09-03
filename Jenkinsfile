@@ -47,7 +47,8 @@ pipeline {
                     sh 'if [ $? -ne 0 ]; then echo "Tests failed" && exit 1; else echo "Application tests were passed"; fi'
                     sh 'docker stop cars_container_test'
                     sh 'docker rm cars_container_test'
-                } catch (Exception e) {
+                } 
+                catch (Exception e) {
                     echo "Tests failed: ${e.getMessage()}"
                     env.TEST_FAILED = true
                 }
