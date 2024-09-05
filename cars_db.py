@@ -43,5 +43,3 @@ def add_car(data):
     with open("cars_list.json", "w") as json_file:
         json.dump(cars, json_file)
     return f"New car number: {new_car_id} was added successfully"
-
-#Just for test - this line shold be deleted
