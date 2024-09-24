@@ -3,6 +3,7 @@ pipeline {
     environment {
         NEW_VERSION_TAG = "06"
         IMAGE_REP = "pavelgend/cars_image"
+        CURL_IMAGE_REP = "pavelgend/alpine_curl:02"
     }
     stages {
         stage('Master') {
@@ -37,9 +38,17 @@ pipeline {
                 branch "new-feature"
             }
             steps{
+                //Run container testing image with latest application version
                 sh 'docker build -t $IMAGE_REP:test_image .'
-                sh 'docker run -d --name cars_container_test $IMAGE_REP:test_image'
+                sh 'docker run -d --name cars_container_test -p 5000:80 $IMAGE_REP:test_image'
                 sh 'docker start cars_container_test'
+                //Run curl container
+                sh 'docker run -t -d --name curl_container --network host $CURL_IMAGE_REP /bin/sh'
+                sh 'docker start curl_container'
+                //Test connection with application via curl_container
+                sh 'docker exec -it curl_container curl http://127.0.0.1:5000/cars'
+                sh 'if [ $? -ne 0 ]; then echo "Connection tests failed" && exit 1; else echo "Application tests were passed"; fi'
+                //Run Unitest on application
                 sh 'docker exec cars_container_test python3 test_cars_db.py'
                 sh 'if [ $? -ne 0 ]; then echo "Tests failed" && exit 1; else echo "Application tests were passed"; fi'
                 sh 'docker stop cars_container_test'
