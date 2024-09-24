@@ -46,7 +46,7 @@ pipeline {
                 sh 'docker run -t -d --name curl_container --network host $CURL_IMAGE_REP /bin/sh'
                 sh 'docker start curl_container'
                 //Test connection with application via curl_container
-                sh 'docker exec -it curl_container curl http://127.0.0.1:5000/cars'
+                sh 'docker exec curl_container curl http://127.0.0.1:5000/cars'
                 sh 'if [ $? -ne 0 ]; then echo "Connection tests failed" && exit 1; else echo "Application tests were passed"; fi'
                 //Run Unitest on application
                 sh 'docker exec cars_container_test python3 test_cars_db.py'
