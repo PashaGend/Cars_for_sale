@@ -18,7 +18,7 @@ pipeline {
         // Clean up
         stage('Pre-Build') {
             when{
-                branch "new-feature" & "master"
+                branch "new-feature"
             }
             steps {
                 script {
