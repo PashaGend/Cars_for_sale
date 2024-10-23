@@ -2,8 +2,11 @@ from flask import Flask
 import json
 import cars_db
 from flask import request
+from prometheus_client import start_http_server, Counter
 
 app = Flask(__name__)
+# Create counter metric to track number of requests for all cars list
+all_cars_requests = Counter('all_cars_requests','Number of requests for all cars')
 
 @app.route('/')
 def hello_world():
@@ -11,6 +14,7 @@ def hello_world():
 
 @app.route('/cars')
 def get_all_tasks():
+     all_cars_requests.inc()
      return json.dumps(cars_db.all_cars())
 
 @app.route('/cars/<int:car_id>', methods=['GET'])
