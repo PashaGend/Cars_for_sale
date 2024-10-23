@@ -58,7 +58,7 @@ pipeline {
         }
         stage('Push') {
             when{
-                branch "new-feature"
+                branch "master"
             }
             steps {
                 sh 'docker push $IMAGE_REP:$NEW_VERSION_TAG'
@@ -71,8 +71,8 @@ pipeline {
             }
             steps {
                 //stop previous application depoyment
-                sh 'docker stop cars_container_deployment'
-                sh 'docker rm cars_container_deployment'
+                //sh 'docker stop cars_container_deployment'
+                //sh 'docker rm cars_container_deployment'
                 //Deploy new application
                 sh 'docker run -d --name cars_container_deployment -p 5000:80 $IMAGE_REP:$NEW_VERSION_TAG'
                 sh 'docker start cars_container_deployment'           
