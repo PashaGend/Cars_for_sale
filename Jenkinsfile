@@ -67,7 +67,7 @@ pipeline {
         }
         stage('Push') {
             when{
-                branch "new-feature"
+                branch "master"
             }
             steps {
                 sh 'docker push $IMAGE_REP:$NEW_VERSION_TAG'
@@ -79,8 +79,23 @@ pipeline {
                 branch "master"
             }
             steps {
+                //stop previous application depoyment
+                //sh 'docker stop cars_container_deployment'
+                //sh 'docker rm cars_container_deployment'
+                //Deploy new application
                 sh 'docker run -d --name cars_container_deployment -p 5000:80 $IMAGE_REP:$NEW_VERSION_TAG'
                 sh 'docker start cars_container_deployment'           
+            }
+        }
+        stage('Monitoring') {
+            when{
+                branch "master"
+            }
+            steps {
+                sh 'docker run -d --name prometheus --network host -v /home/osboxes/Documents/prometheus_material/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus'
+                echo "Prometheus server is running"
+                sh 'docker run -d --name node_exporter --net="host" --pid="host" -v "/:/host:ro,rslave" quay.io/prometheus/node-exporter:latest --path.rootfs=/host'
+                echo "Node exporter is running"
             }
         }
     }
