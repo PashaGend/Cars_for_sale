@@ -6,15 +6,6 @@ pipeline {
         CURL_IMAGE_REP = "pavelgend/alpine_curl:02"
     }
     stages {
-        stage('Master') {
-            when{
-                branch "master"
-            }
-            steps {
-                echo "Working on master branch"
-
-            }
-        }
         // Clean up
         stage('Pre-Build') {
             when{
