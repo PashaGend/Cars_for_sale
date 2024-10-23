@@ -6,26 +6,19 @@ pipeline {
         CURL_IMAGE_REP = "pavelgend/alpine_curl:02"
     }
     stages {
+        stage('Master') {
+            when{
+                branch "master"
+            }
+            steps {
+                echo "Working on master branch"
+
+            }
+        }
         // Clean up
         stage('Pre-Build') {
             when{
                 branch "new-feature"
-            }
-            steps {
-                script {
-                    psOutput = sh(script: 'docker ps -a',returnStdout: true)
-                    echo psOutput
-                    if (psOutput.split("\n").length > 1) {
-                        echo "starting remove container.................."
-                        sh 'docker ps -a -q | xargs docker stop'
-                        sh 'docker ps -a -q | xargs docker rm'
-                    } else {
-                        echo "No running containers were found"
-                    }
-                }
-            }
-            when{
-                branch "master"
             }
             steps {
                 script {
@@ -87,8 +80,8 @@ pipeline {
             }
             steps {
                 //stop previous application depoyment
-                sh 'docker stop cars_container_deployment'
-                sh 'docker rm cars_container_deployment'
+                //sh 'docker stop cars_container_deployment'
+                //sh 'docker rm cars_container_deployment'
                 //Deploy new application
                 sh 'docker run -d --name cars_container_deployment -p 5000:80 $IMAGE_REP:$NEW_VERSION_TAG'
                 sh 'docker start cars_container_deployment'           
