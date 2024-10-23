@@ -33,22 +33,6 @@ pipeline {
                     }
                 }
             }
-            when{
-                branch "master"
-            }
-            steps {
-                script {
-                    psOutput = sh(script: 'docker ps -a',returnStdout: true)
-                    echo psOutput
-                    if (psOutput.split("\n").length > 1) {
-                        echo "starting remove container.................."
-                        sh 'docker ps -a -q | xargs docker stop'
-                        sh 'docker ps -a -q | xargs docker rm'
-                    } else {
-                        echo "No running containers were found"
-                    }
-                }
-            }
         }
         stage('Test') {
             when{
