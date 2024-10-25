@@ -67,7 +67,7 @@ pipeline {
         }
         stage('Deploy') {
             when {
-                branch "master"
+                branch "new-feature"
             }
             steps {
                 //stop previous application depoyment
@@ -80,7 +80,7 @@ pipeline {
         }
         stage('Monitoring') {
             when{
-                branch "master"
+                branch "new-feature"
             }
             steps {
                 sh 'docker run -d --name prometheus --network host -v /home/osboxes/Documents/prometheus_material/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus'
