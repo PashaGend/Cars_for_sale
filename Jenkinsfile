@@ -74,7 +74,8 @@ pipeline {
                 //sh 'docker stop cars_container_deployment'
                 //sh 'docker rm cars_container_deployment'
                 //Deploy new application
-                sh 'docker run -d --name cars_container_deployment -p 5000:80 $IMAGE_REP:$NEW_VERSION_TAG'
+                //sh 'docker run -d --name cars_container_deployment -p 5000:80 $IMAGE_REP:$NEW_VERSION_TAG'
+                sh 'docker run -d --name cars_container_deployment --network host $IMAGE_REP:$NEW_VERSION_TAG'
                 sh 'docker start cars_container_deployment'           
             }
         }
