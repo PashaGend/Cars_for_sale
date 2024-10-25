@@ -32,7 +32,7 @@ pipeline {
             steps{
                 //Run container testing image with latest application version
                 sh 'docker build -t $IMAGE_REP:test_image .'
-                sh 'docker run -d --name cars_container_test -p 5000:80 $IMAGE_REP:test_image'
+                sh 'docker run -d --name cars_container_test -p 5000:5000 $IMAGE_REP:test_image'
                 sh 'docker start cars_container_test'
                 //Run curl container
                 sh 'docker run -t -d --name curl_container --network host $CURL_IMAGE_REP /bin/sh'
