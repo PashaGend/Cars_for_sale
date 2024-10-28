@@ -8,7 +8,7 @@ from werkzeug.middleware.dispatcher import DispatcherMiddleware
 
 app = Flask(__name__)
 # Create counter metric to track number of requests for all cars list
-# all_cars_requests = Counter('all_cars_requests','Number of requests for all cars')
+all_cars_requests = Counter('all_cars_requests','Number of requests for all cars')
 app.wsgi_app=DispatcherMiddleware(app.wsgi_app,{'/metrics': make_wsgi_app()})
 
 @app.route('/')
@@ -17,7 +17,7 @@ def hello_world():
 
 @app.route('/cars')
 def get_all_tasks():
-#     all_cars_requests.inc()
+     all_cars_requests.inc()
      return json.dumps(cars_db.all_cars())
 
 @app.route('/cars/<int:car_id>', methods=['GET'])
