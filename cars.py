@@ -17,7 +17,7 @@ def hello_world():
 
 @app.route('/cars')
 def get_all_tasks():
-     all_cars_requests.inc()
+#     all_cars_requests.inc()
      return json.dumps(cars_db.all_cars())
 
 @app.route('/cars/<int:car_id>', methods=['GET'])
@@ -37,10 +37,10 @@ def add_new_task():
 # def update_tasks(car_id):
 #      return json.dumps(car_id)
 
-@app.route('/metrics')
-def metrics():
-    return {'metrics': {'requests': all_cars_requests.count()}}
+#@app.route('/metrics')
+#def metrics():
+#    return {'metrics': {'requests': all_cars_requests.count()}}
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000)
-    start_http_server(8001)
+#    start_http_server(8001)
