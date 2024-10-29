@@ -2,7 +2,6 @@ from flask import Flask
 import json
 import cars_db
 from flask import request
-#from prometheus_client import start_http_server, Counter
 from prometheus_client import make_wsgi_app, Counter, Histogram
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 
@@ -37,10 +36,5 @@ def add_new_task():
 # def update_tasks(car_id):
 #      return json.dumps(car_id)
 
-#@app.route('/metrics')
-#def metrics():
-#    return {'metrics': {'requests': all_cars_requests.count()}}
-
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000)
-#    start_http_server(8001)
