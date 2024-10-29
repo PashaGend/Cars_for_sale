@@ -60,7 +60,7 @@ pipeline {
         }
         stage('Push') {
             when{
-                branch "new-feature"
+                branch "master"
             }
             steps {
                 sh 'docker push $IMAGE_REP:$NEW_VERSION_TAG'
@@ -69,7 +69,7 @@ pipeline {
         }
         stage('Deploy') {
             when {
-                branch "new-feature"
+                branch "master"
             }
             steps {
                 //Cleanup before deployment
@@ -91,7 +91,7 @@ pipeline {
         }
         stage('Monitoring') {
             when{
-                branch "new-feature"
+                branch "master"
             }
             steps {
                 sh 'docker run -d --name prometheus --network host -v /home/osboxes/Documents/prometheus_material/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus'
