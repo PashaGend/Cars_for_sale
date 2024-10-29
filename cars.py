@@ -2,11 +2,13 @@ from flask import Flask
 import json
 import cars_db
 from flask import request
-from prometheus_client import start_http_server, Counter
+from prometheus_client import make_wsgi_app, Counter, Histogram
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
 
 app = Flask(__name__)
 # Create counter metric to track number of requests for all cars list
 all_cars_requests = Counter('all_cars_requests','Number of requests for all cars')
+app.wsgi_app=DispatcherMiddleware(app.wsgi_app,{'/metrics': make_wsgi_app()})
 
 @app.route('/')
 def hello_world():
@@ -35,5 +37,4 @@ def add_new_task():
 #      return json.dumps(car_id)
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=80)
-    start_http_server(8001)
+    app.run(host="0.0.0.0", port=5000)
